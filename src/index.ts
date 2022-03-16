@@ -2,7 +2,7 @@ const crypto = require("isomorphic-webcrypto");
 
 import { decode } from "base-64";
 import * as qs from "qs";
-import axios, { AxiosInstance } from "axios";
+import axios, {AxiosError, AxiosInstance} from "axios";
 
 const ENVIRONMENT = {
   SANDBOX: "sandbox",
@@ -62,7 +62,7 @@ class JunoCardHash {
     try {
       const { data } = await this.axios.post(ENDPOINT);
       return data.replace(/(\r\n|\n|\r)/gm, ""); // Remove line breaks
-    } catch (error) {
+    } catch (error: any | AxiosError) {
       throw new Error(
         error.response.message ||
           "Erro ao gerar a chave pública na API de pagamentos"
